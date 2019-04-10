@@ -113,6 +113,18 @@ errorIndex++
 
 console.log(weightsOfInputHidden)
 
+// calculate bias 
 
+var BIASj = learning*errorArray[0].value
+bias[2]= bias[2]+BIASj
+console.log(bias[2])
 
+var erorIndexForBias = 1
+for(i=0;i<=1;i++){
 
+     var BIASj = learning*errorArray[erorIndexForBias].value
+    bias[i]= bias[i]+BIASj
+    erorIndexForBias++
+}
+
+console.log(bias)
