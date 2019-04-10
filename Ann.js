@@ -76,7 +76,30 @@ for(i=0;i<=1;i++){
     errorArray.push({type:'Hidden', value:errorOfOutput})
     
 }
-console.log(errorArray)
+
+//
+// console.log(errorArray)
+
+
+    // update weights 
+
+// hiiden layer weights 
+// weightsOfHiddenToOuput
+var learning = 0.9
+for(i=0;i<=1;i++){
+    var daltaWeights = learning * errorArray[0].value * OutPutFinalResult[i]
+    weightsOfHiddenToOuput[i] = weightsOfHiddenToOuput[i]+daltaWeights
+
+}
+
+console.log(OutPutFinalResult)
+console.log(weightsOfHiddenToOuput)
+
+
+// input layer weights 
+
+
+
 
 
 
