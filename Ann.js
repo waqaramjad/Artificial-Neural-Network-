@@ -97,10 +97,21 @@ console.log(weightsOfHiddenToOuput)
 
 
 // input layer weights 
+var errorIndex = 1
+for(j=0;j<=1;j++){
+    var oneObjectResult = []
+   for(i=0;i<=2;i++){
+   
+    var daltaWeights = learning * errorArray[errorIndex].value * inputs[i]
+    console.log('daltaWeights',daltaWeights)
+    weightsOfInputHidden[i][j] = weightsOfInputHidden[i][j]+daltaWeights
 
 
+}
+errorIndex++
+} 
 
-
+console.log(weightsOfInputHidden)
 
 
 
