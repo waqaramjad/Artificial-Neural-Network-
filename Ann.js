@@ -4271,8 +4271,9 @@ while( OutputError>0.05){
         // var oneObjectResult = []
   for(i=0;i<=2;i++){
     result= inputs[i]*weightsOfInputHidden[i][0]
-    //console.log('result',result)
+    // console.log('result',result)
     // console.log(inputs[2])
+    // console
     oneObjectResult.push(result) 
 
     if(i==2){
@@ -4286,6 +4287,8 @@ while( OutputError>0.05){
     //  console.log('OutPutFinalResult',OutPutFinalResult.length)
  
      OutPutFinalResult[0] = sigmoidOutput
+     console.log( OutPutFinalResult[0])
+     
     }
 
 
@@ -4425,13 +4428,13 @@ for(i=0;i<=1;i++){
 // console.log(bias[0])
 
 // console.log( 'counter ' + counter + 'error ' +errorArray[0].value)
-// console.log(OutPutFinalResult[2])
-//   console.log(OutputError)
+console.log(OutPutFinalResult)
+  console.log(OutputError)
 // console.log(target)
 counter++
 counterInside++
-console.log('OutputError',OutputError ,'counterInside',counterInside,'counterOutside',counterOutside)
-console.log(weightsOfHiddenToOuput)
+// console.log('OutputError',OutputError ,'counterInside',counterInside,'counterOutside',counterOutside)
+// console.log(weightsOfHiddenToOuput)
 console.log(bias)
 
 }
