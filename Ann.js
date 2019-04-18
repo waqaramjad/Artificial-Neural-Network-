@@ -4256,8 +4256,8 @@ var counter = 1
 var returnResultOfdata = excelData.map((rowData)=>{
     var counterInside = 1
     
-       var  inputs = [rowData.X1 ,rowData.X2 ,rowData.X3  ]
-    var target = rowData.Y 
+       var  inputs = [rowData.X1/10000 ,rowData.X2/10000 ,rowData.X3/10000  ]
+    var target = rowData.Y/10000 
     // var target = 5150.55
 //    var  inputs = [5066.47 ,  5058.47 ,7081.47]
     counterOutside++
@@ -4313,7 +4313,7 @@ while( OutputError>0.05){
     //  console.log('OutPutFinalResult',OutPutFinalResult.length)
  
      OutPutFinalResult[1] = sigmoidOutput
-     console.log()
+    //  console.log()
     }
 
 
@@ -4373,14 +4373,6 @@ OutputError = errorArray[0].value
     var errorOfOutput =  Oj*(1-Oj)*(errorArray[0].value) * weightsOfHiddenToOuput[1]
     //console.log(errorOfOutput)
     errorArray[2] = {type:'Output', value:errorOfOutput}
-    
-// }
-
-//
-// //console.log(errorArray)
-
-
-    // update weights 
 
 // hiiden layer weights 
 // weightsOfHiddenToOuput
@@ -4389,10 +4381,6 @@ for(i=0;i<=1;i++){
     weightsOfHiddenToOuput[i] = weightsOfHiddenToOuput[i]+daltaWeights
 
 }
-
-//console.log(OutPutFinalResult)
-//console.log(weightsOfHiddenToOuput)
-
 
 // input layer weights 
 var errorIndex = 1
@@ -4428,15 +4416,19 @@ for(i=0;i<=1;i++){
 // console.log(bias[0])
 
 // console.log( 'counter ' + counter + 'error ' +errorArray[0].value)
-console.log(OutPutFinalResult)
-  console.log(OutputError)
-// console.log(target)
+// console.log(OutPutFinalResult)
+  // console.log(OutputError)
+  // console.log('bias' , bias ,'error',OutputError ,'weights ', resultForHidddentoOutput,weightsOfHiddenToOuput ,''  )
+console.log(weightsOfInputHidden)
 counter++
 counterInside++
 // console.log('OutputError',OutputError ,'counterInside',counterInside,'counterOutside',counterOutside)
 // console.log(weightsOfHiddenToOuput)
-console.log(bias)
+
+// console.log(bias)
 
 }
+
+
 
 })
