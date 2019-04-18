@@ -4238,7 +4238,7 @@ var excelData =
 var maximum = 25 
 var minimum = 20
 var ParentsRange =   Math.floor(Math.random() * (maximum - minimum + 1)) + minimum
-// console.log(ParentsRange)
+// //console.log(ParentsRange)
 
 
 var matrix = [],
@@ -4246,14 +4246,14 @@ var matrix = [],
 var ParentNode = []
 //init the grid matrix
 for ( var i = 0; i < ParentsRange; i++ ) {
-    // console.log('i',i)
+    // //console.log('i',i)
     var SingleNode = []
     // weights 
     for ( var j = 0; j <= 7; j++ ) {
         SingleNode[j] = (Math.random() * (-0.5 - 0.5) + 0.5).toFixed(4)
         SingleNode[j] *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
-        // console.log('j',j)
-        // console.log( SingleNode[j])
+        // //console.log('j',j)
+        // //console.log( SingleNode[j])
 
     }
     // bias 
@@ -4263,8 +4263,203 @@ for ( var i = 0; i < ParentsRange; i++ ) {
 
     }
 
-// console.log(SingleNode)
+// //console.log(SingleNode)
 ParentNode.push(SingleNode)
     matrix[i] = []; 
 }
-console.log(ParentNode)
+// //console.log(ParentNode)
+
+
+
+
+/******************************ANN */
+
+
+for(var l=0 ; l <ParentNode.length ; l++){
+var averageError=0 ;
+var inputs , bias , weightsOfInputHidden , result , i ,j 
+
+var OutPutFinalResult = []
+bias = [-0.4,0.2,0.1]
+weightsOfInputHidden = [[0.2, -0.3],[0.4,0.1],[-0.5,0.2]]
+var weightsOfHiddenToOuput = [-0.3, -0.2]
+var resultForHidddentoOutput = []
+var SingleNodeForParents = ParentNode [l]
+// //console.log(SingleNodeForParents)
+// import excelData from './excelData.json'
+// //console.log(data)
+
+var errorArray = []
+// errorArray[0]=1
+var learning = 0.9                      
+var counterOutside = 1
+var counter = 1
+// input to hidden layer 
+var errorResult = false 
+// do {
+  errorResult = false 
+  var returnResultOfdata = excelData.map((rowData)=>{
+    var counterInside = 1
+    
+    var  inputs = [rowData.X1/10000 ,rowData.X2/10000 ,rowData.X3/10000  ]
+    var target = rowData.Y/10000 
+    // var target = 5150.55
+    //    var  inputs = [5066.47 ,  5058.47 ,7081.47]
+    counterOutside++
+    var OutputError = 2
+// //console.log(inputs)
+// //console.log(counter)
+// while( OutputError!=0.05|| OutputError>0.05){
+// while( OutputError>0.05){
+    // for(j=0;j<=1;j++){
+        var oneObjectResult = []
+        // var oneObjectResult = []
+  for(i=0;i<=2;i++){
+    result= inputs[i]*SingleNodeForParents[i]
+    // result= inputs[i]*weightsOfInputHidden[i][0]
+
+    // //console.log('result',result)
+    // //console.log(inputs[2])
+    // //console
+    oneObjectResult.push(result) 
+
+    if(i==2){
+
+
+     var hiddenOutPut = oneObjectResult.reduce(function(a, b) { return a + b; }, 0)
+     hiddenOutPut = hiddenOutPut +  SingleNodeForParents[8]
+     ////console.log('hiddenOutPut',hiddenOutPut)
+     var sigmoidOutput =1/(1+ Math.exp(-hiddenOutPut))
+    //  //console.log('sigmoidOutput',sigmoidOutput)
+    //  //console.log('OutPutFinalResult',OutPutFinalResult.length)
+ 
+     OutPutFinalResult[0] = sigmoidOutput
+    //  //console.log( OutPutFinalResult[0])
+     
+    }
+
+
+
+  }
+        var oneObjectResult = []
+        // var oneObjectResult = []
+  for(var i=3 , j=0;i<=5;i++,j++){
+    result= inputs[j]*SingleNodeForParents[i]
+    ////console.log('result',result)
+    
+    // //console.log(inputs[2])
+    oneObjectResult.push(result) 
+
+    if(j==2){
+
+
+     var hiddenOutPut = oneObjectResult.reduce(function(a, b) { return a + b; }, 0)
+     hiddenOutPut = hiddenOutPut +  SingleNodeForParents[9]
+     ////console.log('hiddenOutPut',hiddenOutPut)
+     var sigmoidOutput =1/(1+ Math.exp(-hiddenOutPut))
+    //  //console.log('sigmoidOutput',sigmoidOutput)
+    //  //console.log('OutPutFinalResult',OutPutFinalResult.length)
+ 
+     OutPutFinalResult[1] = sigmoidOutput
+    //  console.log(OutPutFinalResult[1])
+    }
+
+
+
+  }
+//  }
+
+
+ // hidden to output 
+////console.log('hidden to output')
+var resultForHidddentoOutput = []
+ for(var i=0 , j=6;i<=1;i++,j++){
+    result= OutPutFinalResult[i]*SingleNodeForParents[j]
+    resultForHidddentoOutput.push(result)
+    if(i==1){
+        // //console.log('check')
+        
+        ////console.log('ARRAY ',resultForHidddentoOutput)
+        var hiddenOutPut = resultForHidddentoOutput.reduce(function(a, b) { return a + b; }, 0)
+        hiddenOutPut = hiddenOutPut + SingleNodeForParents[10]
+        ////console.log('hiddenOutPut',hiddenOutPut)
+        var sigmoidOutput =1/(1+ Math.exp(-hiddenOutPut))
+        ////console.log('sigmoidOutput',sigmoidOutput)
+    
+        OutPutFinalResult[2] = sigmoidOutput
+        // console.log(OutPutFinalResult[2]) 
+        // console.log('hy')
+
+    }
+ }
+
+ // error result 
+ 
+ ////console.log('error result ')
+ 
+
+// erorr for output layer 
+var Oj = OutPutFinalResult[2]
+// console.log(OutPutFinalResult)
+var errorOfOutput = Oj*(1-Oj)*(target-Oj)
+averageError = averageError+errorOfOutput
+// console.log(errorOfOutput)+errorOfOutput
+// console.log(errorOfOutput)
+errorArray[0] = {type:'Output', value:errorOfOutput}
+OutputError = errorArray[0].value
+
+  })
+  averageError = averageError /ParentsRange
+  SingleNodeForParents[11] = averageError
+  ParentNode[i] = SingleNodeForParents
+
+
+
+
+}
+
+// console.log(ParentNode)
+
+
+// Cross Over 
+
+var ChildArray = []
+var generationNo =  Math.floor(Math.random() * (25 - 18 + 1)) + 18
+for(var i =0 ; i<generationNo;i++){
+var ParentNo1 =  Math.floor(Math.random() * (ParentsRange - minimum + 1)) + minimum
+var ParentNo2
+do{
+     ParentNo2 =  Math.floor(Math.random() * (ParentsRange - minimum + 1)) + minimum
+
+}while(ParentNo2 == ParentNo1)
+// console.log(ParentsRange,ParentNo1 , ParentNo2)
+var crossOverPoint = Math.floor(Math.random() * (6 - 2 + 1)) + 2
+// console.log(crossOverPoint)
+var SelectedParent1 = ParentNode[ParentNo1]
+var SelectedParent2 = ParentNode[ParentNo2]
+var Child1A = SelectedParent1.slice(0,crossOverPoint)
+var Child1B = SelectedParent1.slice(crossOverPoint)
+var Child2A = SelectedParent2.slice(0,crossOverPoint)
+var Child2B = SelectedParent2.slice(crossOverPoint)
+// console.log(Child1A , Child1B)
+var CompleteChild1 = Child1A.concat(Child2B) 
+var CompleteChild2 = Child2A.concat(Child1B)
+
+// var = 
+
+// Mutattion 
+var MutattionValue = (Math.random() * (-0.05 - 0.05) + 0.05).toFixed(4)
+
+ CompleteChild1[crossOverPoint]+MutattionValue
+CompleteChild2[crossOverPoint]+MutattionValue
+ChildArray.push(CompleteChild1)
+ChildArray.push(CompleteChild2)
+// console.log(CompleteChild1, CompleteChild2)
+
+
+
+}
+
+// console.log(ChildArray)
+var CompleteArrayOfParentAndChild = ParentNode.concat(ChildArray)
+console.log(CompleteArrayOfParentAndChild)
