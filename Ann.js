@@ -4252,14 +4252,16 @@ var learning = 0.9
 var counterOutside = 1
 var counter = 1
 // input to hidden layer 
-
-var returnResultOfdata = excelData.map((rowData)=>{
+var errorResult = false 
+do {
+  errorResult = false 
+  var returnResultOfdata = excelData.map((rowData)=>{
     var counterInside = 1
     
-       var  inputs = [rowData.X1/10000 ,rowData.X2/10000 ,rowData.X3/10000  ]
+    var  inputs = [rowData.X1/10000 ,rowData.X2/10000 ,rowData.X3/10000  ]
     var target = rowData.Y/10000 
     // var target = 5150.55
-//    var  inputs = [5066.47 ,  5058.47 ,7081.47]
+    //    var  inputs = [5066.47 ,  5058.47 ,7081.47]
     counterOutside++
     var OutputError = 2
 // console.log(inputs)
@@ -4299,6 +4301,7 @@ while( OutputError>0.05){
   for(i=0;i<=2;i++){
     result= inputs[i]*weightsOfInputHidden[i][1]
     //console.log('result',result)
+    
     // console.log(inputs[2])
     oneObjectResult.push(result) 
 
@@ -4496,9 +4499,10 @@ var secondphase = 0
 
 var returnResultOfdata = excelData.map((rowData)=>{
   var counterInside = 1
-  console.log(rowData)
+  // console.log(rowData)
      var  inputs = [rowData.X1/10000 ,rowData.X2/10000 ,rowData.X3/10000  ]
   var target = rowData.Y/10000 
+  // console.log(target )
   // var target = 5150.55
 //    var  inputs = [5066.47 ,  5058.47 ,7081.47]
   counterOutside++
@@ -4581,8 +4585,9 @@ for(i=0;i<=1;i++){
       //console.log('sigmoidOutput',sigmoidOutput)
   
       OutPutFinalResult[2] = sigmoidOutput
-      // console.log(OutPutFinalResult[2]) 
-
+      console.log(OutPutFinalResult[2]) 
+      var myResult = OutPutFinalResult[2]
+// console.log(myResult*10000 )
   }
 }
 
@@ -4595,8 +4600,11 @@ for(i=0;i<=1;i++){
 var Oj = OutPutFinalResult[2]
  errorForSecondPhase = Oj*(1-Oj)*(target-Oj)
  if(errorForSecondPhase >0.05){
-console.log(errorForSecondPhase)
- }
+   var errorResult = true
+   var data = shuffle(excelData)
+   excelData= data
+  }
+  // console.log(errorForSecondPhase)
 // errorArray[0] = {type:'Output', value:errorOfOutput}
 // OutputError = errorArray[0].value
 // console.log('errorForSecondPhase ' , errorForSecondPhase , 'counter' , secondphase++)
@@ -4605,4 +4613,12 @@ console.log(errorForSecondPhase)
 // }
 })
 
+}while(errorResult==true)
 
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
