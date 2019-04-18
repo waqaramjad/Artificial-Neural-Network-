@@ -4462,4 +4462,29 @@ ChildArray.push(CompleteChild2)
 
 // console.log(ChildArray)
 var CompleteArrayOfParentAndChild = ParentNode.concat(ChildArray)
-console.log(CompleteArrayOfParentAndChild)
+
+
+// sorting 
+
+
+
+
+function sortFunction(a, b) {
+    if (a[11] === b[11]) {
+        return 0;
+    }
+    else {
+        return (a[11] < b[11]) ? -1 : 1;
+    }
+}
+var sortedArray =CompleteArrayOfParentAndChild.sort(sortFunction);
+
+// var sortedArray = CompleteArrayOfParentAndChild[11].sort(function(a, b){return a - b});
+// console.log(sortedArray)
+var SelectedChildForOpeartion = sortedArray.slice(0,20)
+console.log(SelectedChildForOpeartion)
+
+
+
+
+
