@@ -4287,7 +4287,7 @@ while( OutputError>0.05){
     //  console.log('OutPutFinalResult',OutPutFinalResult.length)
  
      OutPutFinalResult[0] = sigmoidOutput
-     console.log( OutPutFinalResult[0])
+    //  console.log( OutPutFinalResult[0])
      
     }
 
@@ -4419,7 +4419,7 @@ for(i=0;i<=1;i++){
 // console.log(OutPutFinalResult)
   // console.log(OutputError)
   // console.log('bias' , bias ,'error',OutputError ,'weights ', resultForHidddentoOutput,weightsOfHiddenToOuput ,''  )
-console.log(weightsOfInputHidden)
+// console.log(weightsOfInputHidden)
 counter++
 counterInside++
 // console.log('OutputError',OutputError ,'counterInside',counterInside,'counterOutside',counterOutside)
@@ -4432,3 +4432,177 @@ counterInside++
 
 
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var errorForSecondPhase = 0.02
+var secondphase = 0
+
+var returnResultOfdata = excelData.map((rowData)=>{
+  var counterInside = 1
+  console.log(rowData)
+     var  inputs = [rowData.X1/10000 ,rowData.X2/10000 ,rowData.X3/10000  ]
+  var target = rowData.Y/10000 
+  // var target = 5150.55
+//    var  inputs = [5066.47 ,  5058.47 ,7081.47]
+  counterOutside++
+  // var OutputError = 2
+// console.log(inputs)
+// console.log(counter)
+// while( OutputError!=0.05|| OutputError>0.05){
+// while( errorForSecondPhase<0.05){
+  // console.log('sdf')
+  // for(j=0;j<=1;j++){
+      var oneObjectResult = []
+      // var oneObjectResult = []
+for(i=0;i<=2;i++){
+  result= inputs[i]*weightsOfInputHidden[i][0]
+  // console.log('result',result)
+  // console.log(inputs[2])
+  // console
+  oneObjectResult.push(result) 
+
+  if(i==2){
+
+
+   var hiddenOutPut = oneObjectResult.reduce(function(a, b) { return a + b; }, 0)
+   hiddenOutPut = hiddenOutPut + bias[0]
+   //console.log('hiddenOutPut',hiddenOutPut)
+   var sigmoidOutput =1/(1+ Math.exp(-hiddenOutPut))
+  //  console.log('sigmoidOutput',sigmoidOutput)
+  //  console.log('OutPutFinalResult',OutPutFinalResult.length)
+
+   OutPutFinalResult[0] = sigmoidOutput
+  //  console.log( OutPutFinalResult[0])
+   
+  }
+
+
+
+}
+      var oneObjectResult = []
+      // var oneObjectResult = []
+for(i=0;i<=2;i++){
+  result= inputs[i]*weightsOfInputHidden[i][1]
+  //console.log('result',result)
+  // console.log(inputs[2])
+  oneObjectResult.push(result) 
+
+  if(i==2){
+
+
+   var hiddenOutPut = oneObjectResult.reduce(function(a, b) { return a + b; }, 0)
+   hiddenOutPut = hiddenOutPut + bias[1]
+   //console.log('hiddenOutPut',hiddenOutPut)
+   var sigmoidOutput =1/(1+ Math.exp(-hiddenOutPut))
+  //  console.log('sigmoidOutput',sigmoidOutput)
+  //  console.log('OutPutFinalResult',OutPutFinalResult.length)
+
+   OutPutFinalResult[1] = sigmoidOutput
+  //  console.log()
+  }
+
+
+
+}
+//  }
+
+
+// hidden to output 
+//console.log('hidden to output')
+var resultForHidddentoOutput = []
+for(i=0;i<=1;i++){
+  result= OutPutFinalResult[i]*weightsOfHiddenToOuput[i]
+  resultForHidddentoOutput.push(result)
+  if(i==1){
+      // console.log('check')
+      
+      //console.log('ARRAY ',resultForHidddentoOutput)
+      var hiddenOutPut = resultForHidddentoOutput.reduce(function(a, b) { return a + b; }, 0)
+      hiddenOutPut = hiddenOutPut + bias[2]
+      //console.log('hiddenOutPut',hiddenOutPut)
+      var sigmoidOutput =1/(1+ Math.exp(-hiddenOutPut))
+      //console.log('sigmoidOutput',sigmoidOutput)
+  
+      OutPutFinalResult[2] = sigmoidOutput
+      // console.log(OutPutFinalResult[2]) 
+
+  }
+}
+
+// error result 
+
+//console.log('error result ')
+
+
+// erorr for output layer 
+var Oj = OutPutFinalResult[2]
+ errorForSecondPhase = Oj*(1-Oj)*(target-Oj)
+ if(errorForSecondPhase >0.05){
+console.log(errorForSecondPhase)
+ }
+// errorArray[0] = {type:'Output', value:errorOfOutput}
+// OutputError = errorArray[0].value
+// console.log('errorForSecondPhase ' , errorForSecondPhase , 'counter' , secondphase++)
+
+
+// }
+})
+
+
