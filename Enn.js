@@ -4234,7 +4234,9 @@ var excelData =
    ]
 
 
-
+   var wiki = 0
+   var totalError 
+do {
 var maximum = 25 
 var minimum = 20
 var ParentsRange =   Math.floor(Math.random() * (maximum - minimum + 1)) + minimum
@@ -4482,7 +4484,7 @@ var sortedArray =CompleteArrayOfParentAndChild.sort(sortFunction);
 // var sortedArray = CompleteArrayOfParentAndChild[11].sort(function(a, b){return a - b});
 // console.log(sortedArray)
 var SelectedChildForOpeartion = sortedArray.slice(0,20)
-console.log(SelectedChildForOpeartion.length)
+// console.log(SelectedChildForOpeartion.length)
 
 
 
@@ -4629,11 +4631,19 @@ for(var l=0 ; l <20 ; l++){
     
     }
     
-    var totalError =0
+     totalError =0
     for(var l=0 ; l <SelectedChildForOpeartion.length ; l++){
         // SelectedChildForOpeartion[i][11] += 
         totalError = totalError+SelectedChildForOpeartion[i][11]
+        console.log(totalError)
     
     }
-
-console.log(totalError/SelectedChildForOpeartion.length)
+    console.log('before divide totalError',totalError)
+    totalError =   totalError/SelectedChildForOpeartion.length
+    // console.log('totalError',totalError)
+    console.log('After divide totalError',totalError)
+// console.log(totalError)
+// wiki++
+} while( totalError>0.05)
+// } while( wiki >6)
+console.log('totalError outside' , totalError)
