@@ -1,6 +1,6 @@
-const x_max_range = 2, y_max_range = 3, z_max_range = 3;
-const x_min_range =-2, y_min_range = -1, z_min_range =0;
-const equation = (x, y, z) => { //equation
+const MaxRangeOf_X = 2, MacRangeOf_Y = 3, MacRangeOf_Z = 4;
+const MinRangeOf_X =-2, MinRangeOf_Y = -3, MinRangeOf_Z =0;
+const FitnessEquation = (x, y, z) => { //FitnessEquation
     return (Math.pow(x, 2) - 2 * x * y * Math.pow(z, 2) + 2 * Math.pow(y, 2) * z - 5.7 * x * y * z + Math.pow(z, 2));
 }
 
@@ -19,16 +19,16 @@ function random_number_for_z() {
     return random;
 }
 
-const is_x_within_range = (val) => {
-   return (val < x_max_range && val > x_min_range)? true : false 
+const is_rangeChecker_X = (val) => {
+   return (val < MaxRangeOf_X && val > MinRangeOf_X)? true : false 
 }
 
-const is_y_within_range = (val) => {
-    return (val < y_max_range && val > y_min_range) ? true : false     
+const is_rangeChecker_Y = (val) => {
+    return (val < MacRangeOf_Y && val > MinRangeOf_Y) ? true : false     
 }
 
-const is_z_within_range = (val) => {
-   return (val < z_max_range && val > z_min_range) ? true : false     
+const is_rangeChecker_Z = (val) => {
+   return (val < MacRangeOf_Z && val > MinRangeOf_Z) ? true : false     
 }
 
 function r1() {
@@ -44,36 +44,36 @@ function r2() {
 const c1 =2, c2 = 2;
  
 const population = (initial_population_size ) => { // calculate initial particles 10 in size
-    let array = [];
-    let pbest = [];
+    let Particles = [];
+    let personal_best = [];
     for (let i = 0; i < initial_population_size; i++) {
-        array[i] = [];
-        pbest[i] = [];
+        Particles[i] = [];
+        personal_best[i] = [];
         for (let j = 0; j < 4; j++) {
             switch (j) {
-                case 0: //x
-                    array[i][j] = random_number_for_x();
-                    pbest[i][j] = array[i][j];
+                case 0: 
+                    Particles[i][j] = random_number_for_x();
+                    personal_best[i][j] = Particles[i][j];
                     break;
-                case 1: //y
-                    array[i][j] = random_number_for_y();
-                    pbest[i][j] = array[i][j];
+                case 1: 
+                    Particles[i][j] = random_number_for_y();
+                    personal_best[i][j] = Particles[i][j];
                     break;
-                case 2: //z
-                    array[i][j] = random_number_for_z();
-                    pbest[i][j] = array[i][j];
+                case 2: 
+                    Particles[i][j] = random_number_for_z();
+                    personal_best[i][j] = Particles[i][j];
                     break;
                 case 3:
-                    array[i][j] = equation(array[i][j-3], array[i][j-2], array[i][j-1]) // fitness function
-                    pbest[i][j] = array[i][j];
+                    Particles[i][j] = FitnessEquation(Particles[i][j-3], Particles[i][j-2], Particles[i][j-1]) // fitness function
+                    personal_best[i][j] = Particles[i][j];
             }  
         }
     }
-    return {init_arr : array, pbest : pbest}
+    return {init_arr : Particles, personal_best : personal_best}
 }
 
-function gbest_calculator (array) {
-    array.sort((a, b) => {
+function globalBestAnalyzer (Particles) {
+    Particles.sort((a, b) => {
         if (a[3] === b[3]) {
             return 0;
         }
@@ -81,96 +81,99 @@ function gbest_calculator (array) {
             return (a[3] < b[3]) ? -1 : 1;
         }
     })
-    // console.log(array)
-    return array[array.length - 1];
+    // console.log('////////////////////////////////////////////////////////////////////////////')
+    // console.log(Particles)
+
+    return Particles[Particles.length - 1];
 }
 
-function particle_position(array, pers_best, global_best) {
-    // let arr = array;
-    // console.log(array)
+function particle_position(Particles, pers_best, global_best) {
+    // let arr = Particles;
+    // //console.log(Particles)
     let new_x_value, new_y_value, new_z_value;
-    for (let i = 0; i < array.length; i++) {
-        var x_within_range = true;
-        var y_within_range = true;
-        var z_within_range = true;
+    for (let i = 0; i < Particles.length; i++) {
+        var rangeChecker_X = true;
+        var rangeChecker_Y = true;
+        var rangeChecker_Z = true;
         for (let j = 0; j < 4; j++) {
             switch (j) {
                 case 0: //x
-                new_x_value = array[i][j] + ((c1 * r1()) * (pers_best[i][j] - array[i][j])) + ((c2 * r2()) * (global_best[j] - array[i][j]))
-                    if(is_x_within_range(new_x_value)){
-                        console.log("In RANGE", array[i][j])
-                    array[i][j] = new_x_value;
-                    pers_best[i][j] = array[i][j];
+                new_x_value = Particles[i][j] + ((c1 * r1()) * (pers_best[i][j] - Particles[i][j])) + ((c2 * r2()) * (global_best[j] - Particles[i][j]))
+                    if(is_rangeChecker_X(new_x_value)){
+                        //console.log("In RANGE", Particles[i][j])
+                    Particles[i][j] = new_x_value;
+                    pers_best[i][j] = Particles[i][j];
                 }else {
-                    console.log("x is outside of the range, In else", array[i][j])
-                    x_within_range = false;
+                    //console.log("x is outside of the range, In else", Particles[i][j])
+                    rangeChecker_X = false;
                 }
                     break;
                 case 1: //y
-                new_y_value = array[i][j] + ((c1 * r1()) * (pers_best[i][j] - array[i][j])) + ((c2 * r2()) * (global_best[j] - array[i][j]))
-                if(is_y_within_range(new_y_value)){
-                array[i][j] = new_y_value;
-                pers_best[i][j] = array[i][j];
+                new_y_value = Particles[i][j] + ((c1 * r1()) * (pers_best[i][j] - Particles[i][j])) + ((c2 * r2()) * (global_best[j] - Particles[i][j]))
+                if(is_rangeChecker_Y(new_y_value)){
+                Particles[i][j] = new_y_value;
+                pers_best[i][j] = Particles[i][j];
             }else {
-                console.log("y is outside of the range, In else", array[i][j])
-                y_within_range = false;
+                //console.log("y is outside of the range, In else", Particles[i][j])
+                rangeChecker_Y = false;
             }
-                // array[i][j] = array[i][j] + ((c1 * r1()) * (pers_best[i][j] - array[i][j])) + ((c2 * r2()) * (global_best[j] - array[i][j]));
-                // pbest[i][j] = array[i][j];
+                // Particles[i][j] = Particles[i][j] + ((c1 * r1()) * (pers_best[i][j] - Particles[i][j])) + ((c2 * r2()) * (global_best[j] - Particles[i][j]));
+                // personal_best[i][j] = Particles[i][j];
                     break;
                 case 2: //z
-                new_z_value = array[i][j] + ((c1 * r1()) * (pers_best[i][j] - array[i][j])) + ((c2 * r2()) * (global_best[j] - array[i][j]))
-                if(is_z_within_range(new_z_value)){
-                array[i][j] = new_z_value;
-                pers_best[i][j] = array[i][j];
+                new_z_value = Particles[i][j] + ((c1 * r1()) * (pers_best[i][j] - Particles[i][j])) + ((c2 * r2()) * (global_best[j] - Particles[i][j]))
+                if(is_rangeChecker_Z(new_z_value)){
+                Particles[i][j] = new_z_value;
+                pers_best[i][j] = Particles[i][j];
             }else {
-                console.log("z is outside of the range, In else", array[i][j])
-                z_within_range = false;
+                //console.log("z is outside of the range, In else", Particles[i][j])
+                rangeChecker_Z = false;
             }
                     break;
                 case 3:
-                if(x_within_range && y_within_range && z_within_range)
-                array[i][j] = equation(array[i][j-3], array[i][j-2], array[i][j-1]);
-                pers_best[i][j] = array[i][j];
+                if(rangeChecker_X && rangeChecker_Y && rangeChecker_Z)
+                Particles[i][j] = FitnessEquation(Particles[i][j-3], Particles[i][j-2], Particles[i][j-1]);
+                pers_best[i][j] = Particles[i][j];
                 break;
                 default : 
                 break;
             }  
         }
     }
-    return {ind : array, pbest : pers_best, gbest : gbest_calculator(pers_best)}
+    return {ind : Particles, personal_best : pers_best, global_best : globalBestAnalyzer(pers_best)}
 }
 
 // export const particle_swarm_optimization = (number_of_iterations) => {
 
     number_of_iterations = 10
     // return(number_of_iterations)
-    let init_pop = population(10);
-    let ind = init_pop.init_arr;
-    let pbest = init_pop.pbest;
-    let gbest = gbest_calculator(pbest);
-    let history_ind = [] 
+    let initial_population = population(10);
+    let ind = initial_population.init_arr;
+    let personal_best = initial_population.personal_best;
+    let global_best = globalBestAnalyzer(personal_best);
+    let HistoryOfAllParticle  = [] 
     let data = { 
         ind : ind,
-        pbest : pbest,
-        gbest : gbest
+        personal_best : personal_best,
+        global_best : global_best
     };
     for (let i = 0; i < number_of_iterations; i++) {
         let fitness_arr = []
-        console.log(data.ind);
+        //console.log(data.ind);
         for (let j = 0; j < data.ind.length; j++) {
             fitness_arr[j] = data.ind[j][3];
         }
-        history_ind.push(fitness_arr)
-        data = particle_position(data.ind, data.pbest, data.gbest);                
-        // console.log('====================================');
-        // console.log('====================================');
+        HistoryOfAllParticle .push(fitness_arr)
+        data = particle_position(data.ind, data.personal_best, data.global_best);                
+        console.log(data)
+        //console.log('====================================');
+        // //console.log('====================================');
     }
-    // console.log('**********************************');
-    // console.log(history_ind, "HistoryInd");
-    // console.log('**********************************');
-    // console.log(data.gbest[3])
-    // return {fitnesses : history_ind, global_best : data.gbest};
+    // //console.log('**********************************');
+    // //console.log(HistoryOfAllParticle , "HistoryInd");
+    // //console.log('**********************************');
+    console.log(data.global_best[3])
+    // return {fitnesses : HistoryOfAllParticle , global_best : data.global_best};
 // }
 
-// console.log(particle_swarm_optimization(10))
+// //console.log(particle_swarm_optimization(10))
