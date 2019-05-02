@@ -4237,8 +4237,8 @@ var excelData =
    var wiki = 0
    var totalError 
 do {
-var maximum = 25 
-var minimum = 20
+var maximum = 100
+var minimum = 50
 var ParentsRange =   Math.floor(Math.random() * (maximum - minimum + 1)) + minimum
 // //console.log(ParentsRange)
 
@@ -4278,6 +4278,7 @@ ParentNode.push(SingleNode)
 
 
 for(var l=0 ; l <ParentNode.length ; l++){
+  // console.log('ENN for loop')
 var averageError=0 ;
 var inputs , bias , weightsOfInputHidden , result , i ,j 
 
@@ -4428,12 +4429,18 @@ OutputError = errorArray[0].value
 var ChildArray = []
 var generationNo =  Math.floor(Math.random() * (25 - 18 + 1)) + 18
 for(var i =0 ; i<generationNo;i++){
+
+  // console.log('cross over for loop')
+
 var ParentNo1 =  Math.floor(Math.random() * (ParentsRange - minimum + 1)) + minimum
 var ParentNo2
-do{
+var wiki=0
+// do{
      ParentNo2 =  Math.floor(Math.random() * (ParentsRange - minimum + 1)) + minimum
+    //  console.log('cross do while loop' ,wiki++ )
+    //  console.log(ParentNo1 ,ParentNo2 )
 
-}while(ParentNo2 == ParentNo1)
+// }while(ParentNo2 == ParentNo1)
 // console.log(ParentsRange,ParentNo1 , ParentNo2)
 var crossOverPoint = Math.floor(Math.random() * (6 - 2 + 1)) + 2
 // console.log(crossOverPoint)
@@ -4476,9 +4483,9 @@ function sortFunction(a, b) {
         return 0;
     }
     else {
-        return (a[11] < b[11]) ? -1 : 1;
+      return (a[11] < b[11]) ? -1 : 1;
     }
-}
+  }
 var sortedArray =CompleteArrayOfParentAndChild.sort(sortFunction);
 
 // var sortedArray = CompleteArrayOfParentAndChild[11].sort(function(a, b){return a - b});
@@ -4488,37 +4495,38 @@ var SelectedChildForOpeartion = sortedArray.slice(0,20)
 
 
 
+var counterOutside = 0
 for(var l=0 ; l <20 ; l++){
-    var averageError=0 ;
-    var inputs , bias , weightsOfInputHidden , result , i ,j 
-    
-    var OutPutFinalResult = []
-    bias = [-0.4,0.2,0.1]
-    weightsOfInputHidden = [[0.2, -0.3],[0.4,0.1],[-0.5,0.2]]
-    var weightsOfHiddenToOuput = [-0.3, -0.2]
-    var resultForHidddentoOutput = []
-    var SingleNodeForParents = SelectedChildForOpeartion [l]
-    // console.log(SingleNodeForParents , l)
-    // import excelData from './excelData.json'
-    // //console.log(data)
-    
-    var errorArray = []
-    // errorArray[0]=1
-    var learning = 0.9                      
-    var counterOutside = 1
-    var counter = 1
-    // input to hidden layer 
-    var errorResult = false 
-    // do {
-      errorResult = false 
-      var returnResultOfdata = excelData.map((rowData)=>{
-        var counterInside = 1
-        
+  var averageError=0 ;
+  var inputs , bias , weightsOfInputHidden , result , i ,j 
+  
+  var OutPutFinalResult = []
+  bias = [-0.4,0.2,0.1]
+  weightsOfInputHidden = [[0.2, -0.3],[0.4,0.1],[-0.5,0.2]]
+  var weightsOfHiddenToOuput = [-0.3, -0.2]
+  var resultForHidddentoOutput = []
+  var SingleNodeForParents = SelectedChildForOpeartion [l]
+  // console.log(SingleNodeForParents , l)
+  // import excelData from './excelData.json'
+  // //console.log(data)
+  
+  var errorArray = []
+  // errorArray[0]=1
+  var learning = 0.9                      
+  var counter = 1
+  // input to hidden layer 
+  var errorResult = false 
+  // do {
+    errorResult = false 
+    console.log('new point ', counterOutside++)
+    counterOutside++
+    var counterInside = 1
+    var returnResultOfdata = excelData.map((rowData)=>{
+      counterInside++
         var  inputs = [rowData.X1/10000 ,rowData.X2/10000 ,rowData.X3/10000  ]
         var target = rowData.Y/10000 
         // var target = 5150.55
         //    var  inputs = [5066.47 ,  5058.47 ,7081.47]
-        counterOutside++
         var OutputError = 2
     // //console.log(inputs)
     // //console.log(counter)
@@ -4547,7 +4555,7 @@ for(var l=0 ; l <20 ; l++){
         //  //console.log('OutPutFinalResult',OutPutFinalResult.length)
      
          OutPutFinalResult[0] = sigmoidOutput
-        //  //console.log( OutPutFinalResult[0])
+         console.log( OutPutFinalResult[0] )
          
         }
     
@@ -4635,15 +4643,15 @@ for(var l=0 ; l <20 ; l++){
     for(var l=0 ; l <SelectedChildForOpeartion.length ; l++){
         // SelectedChildForOpeartion[i][11] += 
         totalError = totalError+SelectedChildForOpeartion[i][11]
-        console.log(totalError)
+        // console.log(totalError)
     
     }
-    console.log('before divide totalError',totalError)
+    // console.log('before divide totalError',totalError)
     totalError =   totalError/SelectedChildForOpeartion.length
     // console.log('totalError',totalError)
-    console.log('After divide totalError',totalError)
-// console.log(totalError)
+    // console.log('After divide totalError',totalError)
+// console.log(ParentNode)
 // wiki++
-} while( totalError>0.05)
+} while( totalError>0.5)
 // } while( wiki >6)
-console.log('totalError outside' , totalError)
+// console.log('totalError outside' , totalError)
