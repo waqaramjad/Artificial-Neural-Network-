@@ -1,21 +1,21 @@
 const MaxRangeOf_X = 2, MacRangeOf_Y = 3, MacRangeOf_Z = 4;
 const MinRangeOf_X =-2, MinRangeOf_Y = -3, MinRangeOf_Z =0;
-const FitnessEquation = (x, y, z) => { 
+const FitnessEquation = (x, y, z) => { //FitnessEquation
     return (Math.pow(x, 2) - 2 * x * y * Math.pow(z, 2) + 2 * Math.pow(y, 2) * z - 5.7 * x * y * z + Math.pow(z, 2));
 }
 
 function random_number_for_x() {
-    var random = (Math.random() * 4) - 2; 
+    var random = (Math.random() * 4) - 2; //between 2 and -2
     return random;
 }
 
 function random_number_for_y() {
-    var random = (Math.random() * 4) - 1; 
+    var random = (Math.random() * 4) - 1; //between -1 and 3
     return random;
 }
 
 function random_number_for_z() {
-    var random = (Math.random() * 3); 
+    var random = (Math.random() * 3); // between 0 and 3
     return random;
 }
 
@@ -32,18 +32,18 @@ const is_rangeChecker_Z = (val) => {
 }
 
 function r1() {
-    var random = (Math.random() * 1); 
+    var random = (Math.random() * 1); // between 0 and 1
     return random;
 }
 
 function r2() {
-    var random = (Math.random() * 1); 
+    var random = (Math.random() * 1); // between 0 and 1
     return random;
 }
 
 const c1 =2, c2 = 2;
  
-const population = (initial_population_size ) => { 
+const population = (initial_population_size ) => { // calculate initial particles 10 in size
     let Particles = [];
     let personal_best = [];
     for (let i = 0; i < initial_population_size; i++) {
@@ -140,7 +140,7 @@ function particle_position(Particles, pers_best, global_best) {
             }  
         }
     }
-    return {individuals : Particles, personal_best : pers_best, global_best : globalBestAnalyzer(pers_best)}
+    return {ind : Particles, personal_best : pers_best, global_best : globalBestAnalyzer(pers_best)}
 }
 
 // export const particle_swarm_optimization = (number_of_iterations) => {
@@ -148,25 +148,32 @@ function particle_position(Particles, pers_best, global_best) {
     number_of_iterations = 10
     // return(number_of_iterations)
     let initial_population = population(10);
-    let individuals = initial_population.init_arr;
+    let ind = initial_population.init_arr;
     let personal_best = initial_population.personal_best;
     let global_best = globalBestAnalyzer(personal_best);
     let HistoryOfAllParticle  = [] 
-    let particleComplete = { 
-        individuals : individuals,
+    let data = { 
+        ind : ind,
         personal_best : personal_best,
         global_best : global_best
     };
     for (let i = 0; i < number_of_iterations; i++) {
         let fitness_arr = []
-        //console.log(particleComplete.individuals);
-        for (let j = 0; j < particleComplete.individuals.length; j++) {
-            fitness_arr[j] = particleComplete.individuals[j][3];
+        //console.log(data.ind);
+        for (let j = 0; j < data.ind.length; j++) {
+            fitness_arr[j] = data.ind[j][3];
         }
         HistoryOfAllParticle .push(fitness_arr)
-        particleComplete = particle_position(particleComplete.individuals, particleComplete.personal_best, particleComplete.global_best);                
-        console.log(particleComplete)
+        data = particle_position(data.ind, data.personal_best, data.global_best);                
+        console.log(data)
+        //console.log('====================================');
+        // //console.log('====================================');
     }
-    console.log(particleComplete.global_best[3])
+    // //console.log('**********************************');
+    // //console.log(HistoryOfAllParticle , "HistoryInd");
+    // //console.log('**********************************');
+    console.log(data.global_best[3])
+    // return {fitnesses : HistoryOfAllParticle , global_best : data.global_best};
+// }
 
 // //console.log(particle_swarm_optimization(10))
