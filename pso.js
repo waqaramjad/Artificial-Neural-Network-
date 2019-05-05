@@ -1,5 +1,5 @@
-const MaxRangeOf_X = 2, MacRangeOf_Y = 3, MacRangeOf_Z = 4;
-const MinRangeOf_X =-2, MinRangeOf_Y = -3, MinRangeOf_Z =0;
+const MaxRangeOf_X = 2, MacRangeOf_Y = 3, MacRangeOf_Z = 3;
+const MinRangeOf_X =-2, MinRangeOf_Y = -1, MinRangeOf_Z =0;
 const FitnessEquation = (x, y, z) => { 
     return (Math.pow(x, 2) - 2 * x * y * Math.pow(z, 2) + 2 * Math.pow(y, 2) * z - 5.7 * x * y * z + Math.pow(z, 2));
 }
@@ -81,8 +81,6 @@ function globalBestAnalyzer (Particles) {
             return (a[3] < b[3]) ? -1 : 1;
         }
     })
-    // console.log('////////////////////////////////////////////////////////////////////////////')
-    // console.log(Particles)
 
     return Particles[Particles.length - 1];
 }
@@ -143,10 +141,8 @@ function particle_position(Particles, pers_best, global_best) {
     return {individuals : Particles, personal_best : pers_best, global_best : globalBestAnalyzer(pers_best)}
 }
 
-// export const particle_swarm_optimization = (number_of_iterations) => {
 
-    number_of_iterations = 10
-    // return(number_of_iterations)
+    number_of_iterations = 150
     let initial_population = population(10);
     let individuals = initial_population.init_arr;
     let personal_best = initial_population.personal_best;
